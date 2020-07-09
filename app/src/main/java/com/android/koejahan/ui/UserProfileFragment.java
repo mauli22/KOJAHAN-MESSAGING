@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,9 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.android.koejahan.R;
 import com.android.koejahan.data.FriendDB;
-import com.android.koejahan.data.GroupDB;
 import com.android.koejahan.data.SharedPreferenceHelper;
-import com.android.koejahan.data.StaticConfig;
 import com.android.koejahan.model.Configuration;
 import com.android.koejahan.model.User;
 import com.android.koejahan.service.ServiceUtils;
@@ -63,7 +62,7 @@ public class UserProfileFragment extends Fragment {
     private static final String USERNAME_LABEL = "Username";
     private static final String EMAIL_LABEL = "Email";
     private static final String SIGNOUT_LABEL = "Sign out";
-    private static final String RESETPASS_LABEL = "Change Password";
+    private static final String BIO_LABEL = "Bio";
 
     private static final int PICK_IMAGE = 1994;
     private LovelyProgressDialog waitingDialog;
@@ -88,6 +87,7 @@ public class UserProfileFragment extends Fragment {
             //Lấy thông tin của user về và cập nhật lên giao diện
             listConfig.clear();
             myAccount = dataSnapshot.getValue(User.class);
+            Log.d("CEK PROFILE","Aaa "+myAccount.name+" , "+myAccount.email);
 
             setupArrayListInfo(myAccount);
             if(infoAdapter != null){
@@ -99,8 +99,11 @@ public class UserProfileFragment extends Fragment {
             }
 
             setImageAvatar(context, myAccount.avata);
+            myAccount.id = SharedPreferenceHelper.getInstance(context).getUID();
             SharedPreferenceHelper preferenceHelper = SharedPreferenceHelper.getInstance(context);
             preferenceHelper.saveUserInfo(myAccount);
+            setupArrayListInfo(myAccount);
+            Log.d("USER PROFILE","preference execute");
         }
 
         @Override
@@ -113,7 +116,15 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        userDB = FirebaseDatabase.getInstance().getReference().child("user").child(StaticConfig.UID);
+
+        if (SharedPreferenceHelper.getInstance(getContext()).cekDark()){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            Log.d("Chat","darkmode");
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            Log.d("Chat","lightmode");
+        }
+        userDB = FirebaseDatabase.getInstance().getReference().child("user").child(SharedPreferenceHelper.getInstance(context).getUID());
         userDB.addListenerForSingleValueEvent(userListener);
         mAuth = FirebaseAuth.getInstance();
 
@@ -141,9 +152,7 @@ public class UserProfileFragment extends Fragment {
         return view;
     }
 
-    /**
-     * Khi click vào avatar thì bắn intent mở trình xem ảnh mặc định để chọn ảnh
-     */
+
     private View.OnClickListener onAvatarClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -234,7 +243,7 @@ public class UserProfileFragment extends Fragment {
     }
 
     /**
-     * Xóa list cũ và cập nhật lại list data mới
+     *
      * @param myAccount
      */
     public void setupArrayListInfo(User myAccount){
@@ -245,7 +254,7 @@ public class UserProfileFragment extends Fragment {
         Configuration emailConfig = new Configuration(EMAIL_LABEL, myAccount.email, R.mipmap.ic_email);
         listConfig.add(emailConfig);
 
-        Configuration resetPass = new Configuration(RESETPASS_LABEL, "", R.mipmap.ic_restore);
+        Configuration resetPass = new Configuration(BIO_LABEL, myAccount.bio, R.drawable.ic_bio);
         listConfig.add(resetPass);
 
         Configuration signout = new Configuration(SIGNOUT_LABEL, "", R.mipmap.ic_power_settings);
@@ -255,7 +264,7 @@ public class UserProfileFragment extends Fragment {
     private void setImageAvatar(Context context, String imgBase64){
         try {
             Resources res = getResources();
-            //Nếu chưa có avatar thì để hình mặc định
+
             Bitmap src;
             if (imgBase64.equals("default")) {
                 src = BitmapFactory.decodeResource(res, R.drawable.default_avata);
@@ -288,6 +297,13 @@ public class UserProfileFragment extends Fragment {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (SharedPreferenceHelper.getInstance(getContext()).cekDark()){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                Log.d("Chat","darkmode");
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                Log.d("Chat","lightmode");
+            }
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_info_item_layout, parent, false);
             return new ViewHolder(itemView);
@@ -303,11 +319,14 @@ public class UserProfileFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if(config.getLabel().equals(SIGNOUT_LABEL)){
-                        FirebaseAuth.getInstance().signOut();
                         FriendDB.getInstance(getContext()).dropDB();
-                        GroupDB.getInstance(getContext()).dropDB();
                         ServiceUtils.stopServiceFriendChat(getContext().getApplicationContext(), true);
-                        getActivity().finish();
+                        SharedPreferenceHelper.getInstance(context).saveSPBoolean(SharedPreferenceHelper.SP_SUDAH_LOGIN,false);
+                        SharedPreferenceHelper.getInstance(context).saveSPBoolean(SharedPreferenceHelper.SP_SUDAH_DAPETQR, false);
+                        Intent intent = new Intent(UserProfileFragment.this.context,LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+
                     }
 
                     if(config.getLabel().equals(USERNAME_LABEL)){
@@ -315,7 +334,7 @@ public class UserProfileFragment extends Fragment {
                                 .inflate(R.layout.dialog_edit_username,  (ViewGroup) getView(), false);
                         final EditText input = (EditText)vewInflater.findViewById(R.id.edit_username);
                         input.setText(myAccount.name);
-                        /*Hiển thị dialog với dEitText cho phép người dùng nhập username mới*/
+
                         new AlertDialog.Builder(context)
                                 .setTitle("Edit username")
                                 .setView(vewInflater)
@@ -337,18 +356,26 @@ public class UserProfileFragment extends Fragment {
                                 }).show();
                     }
 
-                    if(config.getLabel().equals(RESETPASS_LABEL)){
+                    if(config.getLabel().equals(BIO_LABEL)){
+                        View vewInflater = LayoutInflater.from(context)
+                                .inflate(R.layout.dialog_edit_bio,  (ViewGroup) getView(), false);
+                        final EditText input2 = (EditText)vewInflater.findViewById(R.id.edit_bio);
+                        input2.setText(myAccount.bio);
+
                         new AlertDialog.Builder(context)
-                                .setTitle("Password")
-                                .setMessage("Are you sure want to reset password?")
-                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                .setTitle("Bio")
+                                .setView(vewInflater)
+                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        resetPassword(myAccount.email);
+                                        String newbio = input2.getText().toString();
+                                        if(!myAccount.name.equals(newbio)){
+                                            changeBio(newbio);
+                                        }
                                         dialogInterface.dismiss();
                                     }
                                 })
-                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
@@ -359,9 +386,7 @@ public class UserProfileFragment extends Fragment {
             });
         }
 
-        /**
-         * Cập nhật username mới vào SharedPreference và thay đổi trên giao diện
-         */
+
         private void changeUserName(String newName){
             userDB.child("name").setValue(newName);
 
@@ -372,56 +397,16 @@ public class UserProfileFragment extends Fragment {
 
             tvUserName.setText(newName);
             setupArrayListInfo(myAccount);
+            notifyDataSetChanged();
         }
 
-        void resetPassword(final String email) {
-            mAuth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            new LovelyInfoDialog(context) {
-                                @Override
-                                public LovelyInfoDialog setConfirmButtonText(String text) {
-                                    findView(com.yarolegovich.lovelydialog.R.id.ld_btn_confirm).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            dismiss();
-                                        }
-                                    });
-                                    return super.setConfirmButtonText(text);
-                                }
-                            }
-                                    .setTopColorRes(R.color.colorPrimary)
-                                    .setIcon(R.drawable.ic_pass_reset)
-                                    .setTitle("Password Recovery")
-                                    .setMessage("Sent email to " + email)
-                                    .setConfirmButtonText("Ok")
-                                    .show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            new LovelyInfoDialog(context) {
-                                @Override
-                                public LovelyInfoDialog setConfirmButtonText(String text) {
-                                    findView(com.yarolegovich.lovelydialog.R.id.ld_btn_confirm).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            dismiss();
-                                        }
-                                    });
-                                    return super.setConfirmButtonText(text);
-                                }
-                            }
-                                    .setTopColorRes(R.color.colorAccent)
-                                    .setIcon(R.drawable.ic_pass_reset)
-                                    .setTitle("False")
-                                    .setMessage("False to sent email to " + email)
-                                    .setConfirmButtonText("Ok")
-                                    .show();
-                        }
-                    });
+        private void changeBio(final String newBio) {
+            userDB.child("bio").setValue(newBio);
+            myAccount.bio = newBio;
+            SharedPreferenceHelper xd = SharedPreferenceHelper.getInstance(context);
+            xd.saveUserInfo(myAccount);
+            setupArrayListInfo(myAccount);
+            notifyDataSetChanged();
         }
 
         @Override

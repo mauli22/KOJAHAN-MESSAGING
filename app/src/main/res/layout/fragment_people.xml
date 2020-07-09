@@ -2,13 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_secret">
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_kojahan"
+        />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000"
-        android:alpha="0.4"/>
+        android:alpha="0.25"
+        />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

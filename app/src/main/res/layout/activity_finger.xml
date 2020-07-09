@@ -1,9 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_kojahan"
     tools:context=".ui.FingerActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="#000" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/judul"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tap Your Fingerprint !"
+            android:textSize="25dp"
+            android:textColor="#ffff"
+            android:background="@drawable/roundwhite"
+            android:textAlignment="center"/>
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/isian"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/judul"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/deskrip_finger"
+            android:textSize="15dp"
+            android:textColor="#ffff"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/tvNamauser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kojahan"
+            android:textSize="20dp"
+            android:textColor="#ffff"
+            android:textAlignment="center"
+            android:paddingTop="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gambar"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/isian"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/id_finger"
+            android:layout_width="match_parent"
+            android:layout_height="241dp"
+            app:srcCompat="@drawable/fingerprint" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:id="@+id/paraLabel"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

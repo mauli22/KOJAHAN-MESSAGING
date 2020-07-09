@@ -20,20 +20,26 @@ public class AES {
         return kg.generateKey();
     }
 
-    public static byte[] AESEncryption(String plainText, SecretKey secretKey) throws Exception{
-        Cipher cipher = Cipher.getInstance("AES");
-        //IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-        //cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+    public static byte[] AESEncryption(String plainText, SecretKey secretKey, byte[] iv) throws Exception{
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
+        //cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         return cipher.doFinal(plainText.getBytes());
     }
-    public static String AESDecryption(byte[] CipherText, SecretKey secretKey) throws Exception{
-        Cipher cipher = Cipher.getInstance("AES");
-        //IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-        //cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+    public static String AESDecryption(byte[] CipherText, SecretKey secretKey, byte[] iv) throws Exception{
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+        //cipher.init(Cipher.DECRYPT_MODE, secretKey);
         byte[] result = cipher.doFinal(CipherText);
         return new String(result);
+    }
+    public static byte[] createInitializationVector(){ //untuk mencegah pattern attack
+        byte[] iv = new byte[16];
+        SecureRandom sr = new SecureRandom();
+        sr.nextBytes(iv);
+        return iv;
     }
 
 }

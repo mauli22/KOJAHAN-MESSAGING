@@ -28,7 +28,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginStart="20dp"
         android:text="a"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:textColor="#ffffff" />
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:id="@+id/tvseen"
+        android:layout_below="@+id/textContentUser"
+        android:layout_toLeftOf="@+id/imageView2"/>
 
 </RelativeLayout>

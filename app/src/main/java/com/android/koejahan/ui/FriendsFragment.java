@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -118,10 +119,17 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
             listFriendID = new ArrayList<>();
             dialogFindAllFriend.setCancelable(false)
                     .setIcon(R.drawable.ic_add_friend)
-                    .setTitle("Get all friend....")
+                    .setTitle("Menampilkan Semua Teman....")
                     .setTopColorRes(R.color.colorPrimary)
                     .show();
             getListFriendUId();
+        }else {
+//            dialogFindAllFriend.setCancelable(false)
+//                    .setIcon(R.drawable.ic_add_friend)
+//                    .setTitle("Updating....")
+//                    .setTopColorRes(R.color.colorPrimary)
+//                    .show();
+           onRefresh();
         }
 
         deleteFriendReceiver = new BroadcastReceiver() {
@@ -187,16 +195,16 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         public void onClick(final View view) {
             new LovelyTextInputDialog(view.getContext(), R.style.EditTextTintTheme)
                     .setTopColorRes(R.color.colorPrimary)
-                    .setTitle("Add friend")
-                    .setMessage("Enter friend email")
+                    .setTitle("Tambahkan Teman")
+                    .setMessage("Masukkan Nomor Telepon")
                     .setIcon(R.drawable.ic_add_friend)
-                    .setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                    .setInputFilter("Email not found", new LovelyTextInputDialog.TextFilter() {
+                    .setInputType(InputType.TYPE_CLASS_PHONE)
+                    .setInputFilter("Masukkan nomor telepon dengan valid dan diawali +62 ", new LovelyTextInputDialog.TextFilter() {
                         @Override
                         public boolean check(String text) {
-                            Pattern VALID_EMAIL_ADDRESS_REGEX =
-                                    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-                            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(text);
+                            Pattern VALID_PHONE_REGEX =
+                                    Pattern.compile("^\\+(?:[0-9]?){10,13}[0-9]$", Pattern.CASE_INSENSITIVE);
+                            Matcher matcher = VALID_PHONE_REGEX.matcher(text);
                             return matcher.find();
                         }
                     })
@@ -204,7 +212,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         @Override
                         public void onTextInputConfirmed(String text) {
                             //Tim id user id
-                            findIDEmail(text);
+                            findIDPhone(text);
                             //Check xem da ton tai ban ghi friend chua
                             //Ghi them 1 ban ghi
                         }
@@ -215,15 +223,15 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         /**
          * TIm id cua email tren server
          *
-         * @param email
+         * @param phone
          */
-        private void findIDEmail(String email) {
+        private void findIDPhone(String phone) {
             dialogWait.setCancelable(false)
                     .setIcon(R.drawable.ic_add_friend)
-                    .setTitle("Finding friend....")
+                    .setTitle("Mencari Teman....")
                     .setTopColorRes(R.color.colorPrimary)
                     .show();
-            FirebaseDatabase.getInstance().getReference().child("user").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("user").orderByChild("phone").equalTo(phone).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     dialogWait.dismiss();
@@ -232,8 +240,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         new LovelyInfoDialog(context)
                                 .setTopColorRes(R.color.colorAccent)
                                 .setIcon(R.drawable.ic_add_friend)
-                                .setTitle("Fail")
-                                .setMessage("Email not found")
+                                .setTitle("Gagal")
+                                .setMessage("Nomor Telepon tidak ditemukan")
                                 .show();
                     } else {
                         String id = ((HashMap) dataSnapshot.getValue()).keySet().iterator().next().toString();
@@ -241,8 +249,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             new LovelyInfoDialog(context)
                                     .setTopColorRes(R.color.colorAccent)
                                     .setIcon(R.drawable.ic_add_friend)
-                                    .setTitle("Fail")
-                                    .setMessage("Email not valid")
+                                    .setTitle("Gagal")
+                                    .setMessage("Tidak bisa menambahkan nomormu sendiri !")
                                     .show();
                         } else {
                             HashMap userMap = (HashMap) ((HashMap) dataSnapshot.getValue()).get(id);
@@ -251,6 +259,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             user.email = (String) userMap.get("email");
                             user.avata = (String) userMap.get("avata");
                             user.id = id;
+                            Object key;
+                            user.publikKey = (String) userMap.get("publik_key");
                             user.idRoom = id.compareTo(StaticConfig.UID) > 0 ? (StaticConfig.UID + id).hashCode() + "" : "" + (id + StaticConfig.UID).hashCode();
                             checkBeforAddFriend(id, user);
                         }
@@ -270,7 +280,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         private void checkBeforAddFriend(final String idFriend, Friend userInfo) {
             dialogWait.setCancelable(false)
                     .setIcon(R.drawable.ic_add_friend)
-                    .setTitle("Add friend....")
+                    .setTitle("Menambahkan Teman....")
                     .setTopColorRes(R.color.colorPrimary)
                     .show();
 
@@ -281,7 +291,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         .setTopColorRes(R.color.colorPrimary)
                         .setIcon(R.drawable.ic_add_friend)
                         .setTitle("Friend")
-                        .setMessage("User "+userInfo.email + " has been friend")
+                        .setMessage("User "+userInfo.phone + " sudah jadi temanmu !")
                         .show();
             } else {
                 addFriend(idFriend, true);
@@ -404,6 +414,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         user.name = (String) mapUserInfo.get("name");
                         user.email = (String) mapUserInfo.get("email");
                         user.avata = (String) mapUserInfo.get("avata");
+                        //user.bio = (String) mapUserInfo.get("bio");
+                        user.publikKey = (String) mapUserInfo.get("publik_key");
                         user.id = id;
                         user.idRoom = id.compareTo(StaticConfig.UID) > 0 ? (StaticConfig.UID + id).hashCode() + "" : "" + (id + StaticConfig.UID).hashCode();
                         dataListFriend.getListFriend().add(user);
@@ -457,6 +469,7 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final String id = listFriend.getListFriend().get(position).id;
         final String idRoom = listFriend.getListFriend().get(position).idRoom;
         final String avata = listFriend.getListFriend().get(position).avata;
+        final String publik = listFriend.getListFriend().get(position).publikKey;
         ((ItemFriendViewHolder) holder).txtName.setText(name);
 
         ((View) ((ItemFriendViewHolder) holder).txtName.getParent().getParent().getParent())
@@ -465,12 +478,15 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public void onClick(View view) {
                         ((ItemFriendViewHolder) holder).txtMessage.setTypeface(Typeface.DEFAULT);
                         ((ItemFriendViewHolder) holder).txtName.setTypeface(Typeface.DEFAULT);
-                        Intent intent = new Intent(context, ChatActivity.class);
+                        Intent intent = new Intent(context, FingerActivity.class);
                         intent.putExtra(StaticConfig.INTENT_KEY_CHAT_FRIEND, name);
                         ArrayList<CharSequence> idFriend = new ArrayList<CharSequence>();
                         idFriend.add(id);
+                        intent.putExtra(StaticConfig.INTENT_ID_FRIEND, id);
+                        intent.putExtra(StaticConfig.INTENT_PublikFriend, publik);
                         intent.putCharSequenceArrayListExtra(StaticConfig.INTENT_KEY_CHAT_ID, idFriend);
                         intent.putExtra(StaticConfig.INTENT_KEY_CHAT_ROOM_ID, idRoom);
+                        intent.putExtra(StaticConfig.INTENT_KEY_AVATA_FRIEND, avata);
                         ChatActivity.bitmapAvataFriend = new HashMap<>();
                         if (!avata.equals(StaticConfig.STR_DEFAULT_BASE64)) {
                             byte[] decodedString = Base64.decode(avata, Base64.DEFAULT);
@@ -493,13 +509,13 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                         new AlertDialog.Builder(context)
                                 .setTitle("Delete Friend")
-                                .setMessage("Are you sure want to delete "+friendName+ "?")
+                                .setMessage("Yakin hapus "+friendName+ " dari daftar teman ?")
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
                                         final String idFriendRemoval = listFriend.getListFriend().get(position).id;
-                                        dialogWaitDeleting.setTitle("Deleting...")
+                                        dialogWaitDeleting.setTitle("Menghapus...")
                                                 .setCancelable(false)
                                                 .setTopColorRes(R.color.colorAccent)
                                                 .show();
@@ -604,7 +620,7 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     if(dataSnapshot.getValue() != null && dataSnapshot.getKey().equals("isOnline")) {
-                        Log.d("FriendsFragment add " + id,  (boolean)dataSnapshot.getValue() +"");
+                       // Log.d("FriendsFragment add " + id,  (boolean)dataSnapshot.getValue() +"");
                         listFriend.getListFriend().get(position).status.isOnline = (boolean)dataSnapshot.getValue();
                         notifyDataSetChanged();
                     }
@@ -613,7 +629,7 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     if(dataSnapshot.getValue() != null&& dataSnapshot.getKey().equals("isOnline")) {
-                        Log.d("FriendsFragment change " + id,  (boolean)dataSnapshot.getValue() +"");
+                        //Log.d("FriendsFragment change " + id,  (boolean)dataSnapshot.getValue() +"");
                         listFriend.getListFriend().get(position).status.isOnline = (boolean)dataSnapshot.getValue();
                         notifyDataSetChanged();
                     }
@@ -638,9 +654,11 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         if (listFriend.getListFriend().get(position).status.isOnline) {
-            ((ItemFriendViewHolder) holder).avata.setBorderWidth(10);
+            //((ItemFriendViewHolder) holder).avata.setBorderWidth(15);
+            ((ItemFriendViewHolder) holder).ison.setVisibility(View.VISIBLE);
         } else {
-            ((ItemFriendViewHolder) holder).avata.setBorderWidth(0);
+            //((ItemFriendViewHolder) holder).avata.setBorderWidth(0);
+            ((ItemFriendViewHolder) holder).ison.setVisibility(View.GONE);
         }
     }
 
@@ -722,6 +740,7 @@ class ListFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 class ItemFriendViewHolder extends RecyclerView.ViewHolder{
     public CircleImageView avata;
     public TextView txtName, txtTime, txtMessage;
+    public ImageView ison;
     private Context context;
 
     ItemFriendViewHolder(Context context, View itemView) {
@@ -730,6 +749,7 @@ class ItemFriendViewHolder extends RecyclerView.ViewHolder{
         txtName = (TextView) itemView.findViewById(R.id.txtName);
         txtTime = (TextView) itemView.findViewById(R.id.txtTime);
         txtMessage = (TextView) itemView.findViewById(R.id.txtMessage);
+        ison = itemView.findViewById(R.id.isOn);
         this.context = context;
     }
 }

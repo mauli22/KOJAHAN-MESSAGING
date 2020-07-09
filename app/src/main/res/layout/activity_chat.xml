@@ -5,19 +5,20 @@
     xmlns:emojicon="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/rootview"
-    android:background="@drawable/chatbg">
+    >
 
 
     <ImageView
         android:id="@+id/emoji_btn"
         android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:padding="4dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/smiley"/>
+        android:src="@drawable/emot_black"/>
 
     <ImageButton
         android:id="@+id/btnSend"
@@ -59,15 +60,15 @@
         android:layout_toStartOf="@id/btnSend"
         android:layout_toLeftOf="@id/btnSend"
         android:layout_toRightOf="@id/emoji_btn"
-        android:alpha="0.6"
-        android:background="@drawable/edittext_boder"
         android:drawablePadding="20dp"
         android:inputType="textMultiLine"
         android:maxLines="10"
         android:paddingLeft="7dp"
+        android:maxHeight="80dp"
         android:paddingRight="7dp"
-        android:textColorHint="#aeafaf"
+        android:textColorHint="#808080"
         android:textSize="18dp"
+        android:hint="Message"
         emojicon:emojiconSize="28sp" />
 
 </RelativeLayout>

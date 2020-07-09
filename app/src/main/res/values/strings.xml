@@ -1,18 +1,81 @@
 <resources>
-    <string name="app_name">SecKoejahan</string>
+    <string name="app_name">Kojahan</string>
     <string name="action_settings">Settings</string>
     <string name="about">About</string>
+    <string name="darkmode">Dark Mode Chat</string>
     <string name="login_success">login success</string>
     <string name="login">LOGIN</string>
     <string name="Username">Email</string>
     <string name="Password">Password</string>
+    <string name="Phone">Phone</string>
     <string name="forgot_your_password">Forgot your password ?</string>
-    <string name="go">GO</string>
+    <string name="go">MASUK</string>
     <string name="repeat_password">Repeat Password</string>
-    <string name="next">NEXT</string>
+
     <string name="register">REGISTER</string>
+    <string name="deskrip_finger">Untuk melanjutkan ke Layanan Chat, kami membutuhkan Authentikasi pengguna </string>
 
     <string name="hint_username">Enter a new username</string>
+    <string name="hint_bio">Masukkan beberapa kata tentang dirimu</string>
     <string name="hint_email_reset">Enter your email</string>
-    <string name="enter_group_name">Enter group name</string>
+
+    <string name="q1">1. Apa itu Kojahan messaging ?</string>
+    <string name="q2">2. Bagaimana saya mengirim dan menerima pesan ?</string>
+    <string name="q3">3. Bagaimana saya menambahkan teman  ?</string>
+    <string name="q4">4. Dapatkah saya menghapus teman ?</string>
+    <string name="q5">5. Apa fitur keamanan yang ada di Kojahan Messaging ?</string>
+    <string name="q6">6. Apa fitur lain yang ada di Kojahan Messaging ?</string>
+    <string name="q7">7. Bagaimana saya memperbarui nomor telepon dan email ?</string>
+    <string name="q8">8. Apakah ada tips khusus menggunakan Kojahan ?</string>
+    <string name="a1">Kojahan messaging adalah aplikasi instant messaaging yang fokus pada keamanan akun anda.
+        Kami menjamin keamanan pengguna dengan menerapkan hybrid encryption pada setiap pesan yang dikirimkan secara end-to-end.
+        Kami juga menjamin keamanan akun pengguna dengan menerapkan two factor authentication</string>
+    <string name="a2">Pengiriman dan pembacaan pesan dilakukan dengan menekan teman yang dituju.
+        Pengguna dapat mengirimkan pesan text dan emoticon yang lucu.
+        Sebelum kamu mengirim dan menerima pesan, sistem akan melakukan otentikasi akun dengan fingerprint yang terdaftar pada perangkatmu.
+        Kami memperhatikan keamanan berpesanmu.
+        </string>
+    <string name="a3">Pengguna dapat menambahkan teman secara manual dengan menginputkan nomor telepon teman yang sudah terdaftar aplikasi Kojahan messaging.
+        Pengguna menginputkan nomor telepon secara lengkap dengan kode negara (ex:+628...).
+        Setelah itu pengguna dapat berkirim pesan secara gratis.
+        Ayo ajak teman kalian menggunakan Kojahan</string>
+    <string name="a4">Pengguna dapat menghapus teman dari list teman.
+        pengguna harus menekan teman yang dituju kemudian pada pop up yang muncul, pilih ok.
+        Selamat menggunakan kojahan!</string>
+    <string name="a5">Kojahan messaging menggunakan pengamanan hybrid encryption dengan menggabungkan AES-128 dan RSA-2048 untuk menjamin layananan kirim terima pesan.
+    Kojahan messaging juga menggunakan Digital Signature untuk menjamin keaslian pesan yang dikirimkan dari serangan Man In The Middle.
+    Two factor authentication digunakan untuk mencegah pencuarian akun dengan menggunakan QR Code yang dikirim ke email mu dan Fingerprint sebelum melakukan kirim terima pesan</string>
+    <string name="a6">Untuk mempercantik tampilan Kojahan Messaging, kami menyediakan 2 mode tampilan yaitu Dark Mode dan Light Mode.
+    Ingin mencoba tampilan ala hacker ? Ayo aktifkan Dark Mode Kojahan dan lakukan layananan berpesan secara gratis dan aman !</string>
+    <string name="a7">
+        Sementara, untuk memeperbarui nomor telepon dan email yang sudah terdaftar serta menghapus pesan yang sudah penuh pengguna dapat menghubungi creator Kojahan a.n "MAULI".
+    </string>
+    <string name="a8">
+        a). Kojahan messaging belum menyediakan backup keys, sehingga setelah kamu uninstall aplikasi maka pesan terdahulu tidak bisa kamu baca lagi.</string>
+    <string name="a81">
+        b). Pastikan kamu login Kojahan messaging untuk 1 akun pada 1 perangkat.</string>
+    <string name="a82">
+        c). Apabila kamu ingin menggunakan 2 akun pada 1 perangkat, uninstall terlebih dahulu aplikasinya untuk mencegah duplikasi keys.
+    </string>
+    <string name="copyright">&#169; KojahanMessaging@TEAM</string>
+
+    <string name="skip">Lewati</string>
+    <string name="start">Mulai</string>
+    <string name="next">Lanjut</string>
+    <string name="slide_1_title">One Time Pad Code!</string>
+    <string name="slide_1_desc">Kemudahan login dengan menggunakan OTP yang dikirimkan melalui SMS ke nomor telepon kamu!</string>
+
+    <string name="slide_2_title">QR Code Authentication</string>
+    <string name="slide_2_desc">Pengamanan login dengan menggunakan QR Code yang dikirimkan lewat email kamu yang terdaftar!</string>
+
+    <string name="slide_3_title">Hybrid Encryption</string>
+    <string name="slide_3_desc">Pengamanan pesan dengan enkripsi hybrid secara end-to-end memberikan kerahasiaan dalam berpesan anda!</string>
+
+    <string name="slide_4_title">Fingerprint Authentication</string>
+    <string name="slide_4_desc">Pengamanan pesan kamu dari orang lain. Tap fingerprintmu untuk mendekripsi pesan!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="dialog">Kamu dapat keluar menuju Email untuk mengunduh QR Code. Dalam waktu 10 menit session login akan direstart otomatis</string>
+
 </resources>

@@ -55,6 +55,24 @@ public class RSA {
         return Base64.encodeToString(cipherText, Base64.DEFAULT);
     }
 
+    public static String encryptWithPrivate(String plainText, PrivateKey privkey) throws Exception {
+        Cipher encryptCipher = Cipher.getInstance("RSA");
+        encryptCipher.init(Cipher.ENCRYPT_MODE, privkey);
+
+        byte[] cipherText = encryptCipher.doFinal(plainText.getBytes(UTF_8));
+
+        return Base64.encodeToString(cipherText, Base64.DEFAULT);
+    }
+
+    public static String decryptWithPublic(String cipherText, PublicKey publicKey) throws Exception{
+        byte[] bytes = Base64Utils.decode(cipherText);
+
+        Cipher decriptCipher = Cipher.getInstance("RSA");
+        decriptCipher.init(Cipher.DECRYPT_MODE, publicKey);
+
+        return new String(decriptCipher.doFinal(bytes), UTF_8);
+    }
+
     public static String decrypt(String cipherText, PrivateKey privateKey) throws Exception {
         byte[] bytes = Base64Utils.decode(cipherText);
 

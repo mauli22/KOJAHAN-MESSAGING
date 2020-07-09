@@ -38,6 +38,7 @@ public final class FriendDB {
         values.put(FeedEntry.COLUMN_NAME_EMAIL, friend.email);
         values.put(FeedEntry.COLUMN_NAME_ID_ROOM, friend.idRoom);
         values.put(FeedEntry.COLUMN_NAME_AVATA, friend.avata);
+        values.put(FeedEntry.COLUMN_NAME_Pubkey, friend.publikKey);
         // Insert the new row, returning the primary key value of the new row
         return db.insert(FeedEntry.TABLE_NAME, null, values);
     }
@@ -56,6 +57,28 @@ public final class FriendDB {
 // you will actually use after this query.
         try {
             Cursor cursor = db.rawQuery("select * from " + FeedEntry.TABLE_NAME, null);
+            while (cursor.moveToNext()) {
+                Friend friend = new Friend();
+                friend.id = cursor.getString(0);
+                friend.name = cursor.getString(1);
+                friend.email = cursor.getString(2);
+                friend.idRoom = cursor.getString(3);
+                friend.avata = cursor.getString(4);
+                friend.publikKey = cursor.getString(5);
+                listFriend.getListFriend().add(friend);
+            }
+            cursor.close();
+        }catch (Exception e){
+            return new ListFriend();
+        }
+        return listFriend;
+    }
+
+    public ListFriend getListSpesifik(String id){
+        ListFriend listFriend = new ListFriend();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        try {
+            Cursor cursor = db.rawQuery("select * from " + FeedEntry.TABLE_NAME + " WHERE friendID ='" + id + "'",null);
             while (cursor.moveToNext()) {
                 Friend friend = new Friend();
                 friend.id = cursor.getString(0);
@@ -86,6 +109,7 @@ public final class FriendDB {
         static final String COLUMN_NAME_EMAIL = "email";
         static final String COLUMN_NAME_ID_ROOM = "idRoom";
         static final String COLUMN_NAME_AVATA = "avata";
+        static final String COLUMN_NAME_Pubkey = "publikKey";
     }
 
     private static final String TEXT_TYPE = " TEXT";
@@ -96,7 +120,8 @@ public final class FriendDB {
                     FeedEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
                     FeedEntry.COLUMN_NAME_EMAIL + TEXT_TYPE + COMMA_SEP +
                     FeedEntry.COLUMN_NAME_ID_ROOM + TEXT_TYPE + COMMA_SEP +
-                    FeedEntry.COLUMN_NAME_AVATA + TEXT_TYPE + " )";
+                    FeedEntry.COLUMN_NAME_AVATA + TEXT_TYPE + COMMA_SEP +
+                    FeedEntry.COLUMN_NAME_Pubkey + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;

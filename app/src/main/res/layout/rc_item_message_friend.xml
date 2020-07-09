@@ -28,10 +28,18 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:text="A"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#000"
         emojicon:emojiconSize="45sp"
         emojicon:emojiconUseSystemDefault="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvseen"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:layout_below="@+id/textContentFriend"
+        android:layout_toRightOf="@+id/imageView3"/>
 
 </RelativeLayout>

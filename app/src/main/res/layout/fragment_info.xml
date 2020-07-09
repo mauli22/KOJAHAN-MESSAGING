@@ -26,7 +26,7 @@
                 android:layout_gravity="center"
                 android:layout_width="104dp"
                 android:layout_height="104dp"
-                android:src="@drawable/default_avata"
+                android:src="@drawable/usericon"
                 android:background="#00000000"/>
             <TextView
                 android:layout_gravity="center"

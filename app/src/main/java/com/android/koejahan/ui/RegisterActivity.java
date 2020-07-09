@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -17,7 +18,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.koejahan.R;
+import com.android.koejahan.data.ProsesLogin;
 import com.android.koejahan.data.StaticConfig;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.Nullable;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,8 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
     CardView cvAdd;
     private final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private EditText editTextUsername, editTextPassword, editTextRepeatPassword;
+    private final Pattern VALID_phone = Pattern.compile("^[0-9]{10,13}$", Pattern.CASE_INSENSITIVE);
+    private EditText editTextEmail, editTextPhoneNumber ;
     public static String STR_EXTRA_ACTION_REGISTER = "register";
+    private String email,phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         cvAdd = (CardView) findViewById(R.id.cv_add);
-        editTextUsername = (EditText) findViewById(R.id.et_username);
-        editTextPassword = (EditText) findViewById(R.id.et_password);
-        editTextRepeatPassword = (EditText) findViewById(R.id.et_repeatpassword);
+        editTextEmail = (EditText) findViewById(R.id.ed_email);
+        editTextPhoneNumber = (EditText) findViewById(R.id.ed_phone);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ShowEnterAnimation();
         }
@@ -130,29 +138,56 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void clickRegister(View view) {
-        String username = editTextUsername.getText().toString();
-        String password = editTextPassword.getText().toString();
-        String repeatPassword = editTextRepeatPassword.getText().toString();
-        if(validate(username, password, repeatPassword)){
-            Intent data = new Intent();
-            data.putExtra(StaticConfig.STR_EXTRA_USERNAME, username);
-            data.putExtra(StaticConfig.STR_EXTRA_PASSWORD, password);
-            data.putExtra(StaticConfig.STR_EXTRA_ACTION, STR_EXTRA_ACTION_REGISTER);
-            setResult(RESULT_OK, data);
-            finish();
+        email = editTextEmail.getText().toString();
+        phone = "+62"+editTextPhoneNumber.getText().toString();
+        if(validate(email, editTextPhoneNumber.getText().toString())){
+            FirebaseDatabase.getInstance().getReference().child("user/" ).orderByChild("phone").equalTo(phone).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    String userid = dataSnapshot.getKey();
+                    if (!userid.equals(null)){
+                        Toast.makeText(RegisterActivity.this, "Nomor Telepon sudah terdaftar, silahkan Login !", Toast.LENGTH_SHORT).show();
+                    } else{
+                        ProsesLogin setDaftar = new ProsesLogin();
+                        if (setDaftar.initNewUserInfo(email,phone)){
+                            Toast.makeText(RegisterActivity.this,"Berhasil Mendaftar !",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(RegisterActivity.this,"Gagal Mendaftar, Coba lagi !",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }else {
-            Toast.makeText(this, "Invalid email or not match password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid email or phone number !", Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * Validate email, pass == re_pass
-     * @param emailStr
-     * @param password
-     * @return
-     */
-    private boolean validate(String emailStr, String password, String repeatPassword) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
-        return password.length() > 0 && repeatPassword.equals(password) && matcher.find();
+    private boolean validate(String emailStr, String phonenumber) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        Matcher matcherPhone = VALID_phone.matcher(phonenumber);
+        return (phonenumber.length() > 0 && !phonenumber.startsWith("08") && matcher.find() && matcherPhone.find());
     }
+
 }

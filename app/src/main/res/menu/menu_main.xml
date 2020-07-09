@@ -4,7 +4,20 @@
     tools:context="com.android.koejahan.MainActivity">
     <item
         android:id="@+id/about"
+        android:icon="@drawable/about_ic"
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/darkmode"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Dark Mode"/>
+
+    <item
+        android:id="@+id/lightmode"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Light Mode"/>
 </menu>

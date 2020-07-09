@@ -3,11 +3,16 @@ package com.android.koejahan.model;
 
 
 public class User {
+    public String id;
     public String name;
+    public String phone;
     public String email;
     public String avata;
     public Status status;
     public Message message;
+    public String secretVal;
+    public String publik_key;
+    public String bio;
 
 
     public User(){
