@@ -3,11 +3,11 @@ package com.android.koejahan.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class FingerActivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finger);
+        setContentView(R.layout.activity_scan);
     }
 }
