@@ -1,9 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AboutActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/q1"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a1"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a1"
+            android:layout_marginTop="10dp"
+            android:text="@string/q2"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a2"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a2"
+            android:layout_marginTop="10dp"
+            android:text="@string/q3"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a3"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a3"
+            android:layout_marginTop="10dp"
+            android:text="@string/q4"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q4"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a4"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a4"
+            android:layout_marginTop="10dp"
+            android:text="@string/q5"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q5"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a5"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a5"
+            android:layout_marginTop="10dp"
+            android:text="@string/q6"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q6"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a6"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a6"
+            android:layout_marginTop="10dp"
+            android:text="@string/q7"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q7"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a7"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/q8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/a7"
+            android:layout_marginTop="10dp"
+            android:text="@string/q8"
+            android:textColor="#0288D1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/a8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/q8"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a8"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+        <TextView
+            android:id="@+id/a81"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/a8"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a81"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+        <TextView
+            android:id="@+id/a82"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/a81"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/a82"
+            android:textAlignment="gravity"
+            android:textSize="11dp" />
+
+
+
+    </RelativeLayout>
+<!--    <TextView-->
+<!--        android:id="@+id/dsmol"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/a4"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:text="Kojahan Messaging- @TEAM"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#0288D1"-->
+<!--        android:textSize="20dp"-->
+<!--        android:textStyle="bold" />-->
+</ScrollView>

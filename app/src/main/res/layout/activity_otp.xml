@@ -1,9 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.OTPActivity">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.OTPActivity"
+    android:background="@drawable/bg_kojahan">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="#000"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="95dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/verifyOTPLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/optbanner" />
+
+        <EditText
+            android:id="@+id/editTextOTP"
+            android:layout_width="210dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/roundwhite"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Input OTP Here"
+            android:inputType="phone"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <Button
+            android:id="@+id/buttonVerify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            android:background="@color/colorAccent"
+            android:onClick="cekOtp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Verify"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextOTP" />
+
+        <Button
+            android:id="@+id/buttonVerify2"
+            android:layout_width="134dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="36dp"
+            android:background="#090606"
+            android:onClick="sendGain"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Send Again"
+            android:textAllCaps="false"
+            android:textColor="#FF0000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonVerify" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Enter the OTP received on"
+            android:textColor="#FFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:hint="Kirim ulang kode ()"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toTopOf="@+id/buttonVerify2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonVerify" />
+
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>

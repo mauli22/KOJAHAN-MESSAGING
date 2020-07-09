@@ -9,10 +9,10 @@
         android:layout_height="wrap_content">
 
         <AutoCompleteTextView
-            android:id="@+id/edit_username"
+            android:id="@+id/edit_bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_username"
+            android:hint="@string/hint_bio"
             android:imeOptions="actionDone"
             android:inputType="text" />
 
