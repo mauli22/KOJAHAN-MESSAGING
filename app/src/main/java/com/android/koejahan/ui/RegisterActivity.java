@@ -141,44 +141,16 @@ public class RegisterActivity extends AppCompatActivity {
         email = editTextEmail.getText().toString();
         phone = "+62"+editTextPhoneNumber.getText().toString();
         if(validate(email, editTextPhoneNumber.getText().toString())){
-            FirebaseDatabase.getInstance().getReference().child("user/" ).orderByChild("phone").equalTo(phone).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    String userid = dataSnapshot.getKey();
-                    if (!userid.equals(null)){
-                        Toast.makeText(RegisterActivity.this, "Nomor Telepon sudah terdaftar, silahkan Login !", Toast.LENGTH_SHORT).show();
-                    } else{
-                        ProsesLogin setDaftar = new ProsesLogin();
-                        if (setDaftar.initNewUserInfo(email,phone)){
-                            Toast.makeText(RegisterActivity.this,"Berhasil Mendaftar !",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(RegisterActivity.this,"Gagal Mendaftar, Coba lagi !",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            ProsesLogin setDaftar = new ProsesLogin();
+            if (setDaftar.initNewUserInfo(email,phone)){
+                Toast.makeText(RegisterActivity.this,"Berhasil Mendaftar !",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(RegisterActivity.this,"Gagal Mendaftar, Coba lagi !",Toast.LENGTH_SHORT).show();
+            }
 
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
         }else {
             Toast.makeText(this, "Invalid email or phone number !", Toast.LENGTH_SHORT).show();
         }
@@ -190,4 +162,8 @@ public class RegisterActivity extends AppCompatActivity {
         return (phonenumber.length() > 0 && !phonenumber.startsWith("08") && matcher.find() && matcherPhone.find());
     }
 
+    public boolean cekuser(){
+
+        return true;
+    }
 }
