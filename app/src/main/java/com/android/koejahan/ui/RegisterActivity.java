@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     CardView cvAdd;
     private final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private final Pattern VALID_phone = Pattern.compile("^[0-9]{10,13}$", Pattern.CASE_INSENSITIVE);
+    private final Pattern VALID_phone = Pattern.compile("^[0-9]{9,13}$", Pattern.CASE_INSENSITIVE);
     private EditText editTextEmail, editTextPhoneNumber ;
     public static String STR_EXTRA_ACTION_REGISTER = "register";
     private String email,phone;

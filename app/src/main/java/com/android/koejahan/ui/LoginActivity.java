@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 public class LoginActivity extends AppCompatActivity {
     private static String TAG = "LoginActivity";
     FloatingActionButton fab;
-    private final Pattern VALID_phone = Pattern.compile("^[0-9]{10,13}$", Pattern.CASE_INSENSITIVE);
+    private final Pattern VALID_phone = Pattern.compile("^[0-9]{9,13}$", Pattern.CASE_INSENSITIVE);
     private EditText editTextPhone;
     private LovelyProgressDialog waitingDialog;
     private static final String PUBLIC_KEY_FILE = "FilePublicKey";
